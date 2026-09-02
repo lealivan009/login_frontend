@@ -1,0 +1,62 @@
+import { useState, type FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
+import { AuthForm, Field } from "../components/AuthForm";
+import { AuthLayout } from "../components/AuthLayout";
+
+export function LoginPage() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function onSubmit(event: FormEvent) {
+    event.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    try {
+      await login(email.trim(), password);
+      navigate("/app", { replace: true });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo iniciar sesión");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <AuthLayout>
+      <AuthForm
+        title="Iniciar sesión"
+        subtitle="Entrá con tu email y contraseña para continuar."
+        error={error}
+        submitting={submitting}
+        submitLabel="Entrar"
+        onSubmit={onSubmit}
+        footer={
+          <>
+            ¿No tenés cuenta? <Link to="/register">Crear una</Link>
+          </>
+        }
+      >
+        <Field id="email" label="Email" type="email" autoComplete="email" value={email} onChange={setEmail} />
+        <Field
+          id="password"
+          label="Contraseña"
+          type={showPassword ? "text" : "password"}
+          autoComplete="current-password"
+          value={password}
+          onChange={setPassword}
+          extra={
+            <button type="button" className="text-btn" onClick={() => setShowPassword((value) => !value)}>
+              {showPassword ? "Ocultar" : "Mostrar"}
+            </button>
+          }
+        />
+      </AuthForm>
+    </AuthLayout>
+  );
+}
