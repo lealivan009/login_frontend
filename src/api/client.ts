@@ -1,4 +1,4 @@
-import type { ApiError, AuthResponse, User } from "./types";
+import type { ApiError, AuthResponse, ProfileFields, Role, User } from "./types";
 
 function resolveApiUrl(): string {
   const runtime = window.__APP_CONFIG__?.API_URL?.trim();
@@ -46,11 +46,17 @@ export class ApiClient {
     return Boolean(this.refreshToken);
   }
 
-  async register(fullName: string, email: string, password: string): Promise<AuthResponse> {
+  async register(
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    profile: ProfileFields = {}
+  ): Promise<AuthResponse> {
     const auth = await this.request<AuthResponse>("/api/auth/register", {
       method: "POST",
       auth: false,
-      body: { fullName, email, password },
+      body: { firstName, lastName, email, password, ...profile },
     });
     this.setSession(auth);
     return auth;
@@ -105,6 +111,37 @@ export class ApiClient {
       method: "POST",
       body: { currentPassword, newPassword },
     });
+  }
+
+  updateProfile(input: { firstName: string; lastName: string } & ProfileFields) {
+    return this.request<User>("/api/auth/me", {
+      method: "PATCH",
+      body: input,
+    });
+  }
+
+  listUsers() {
+    return this.request<User[]>("/api/users");
+  }
+
+  createUser(
+    input: { firstName: string; lastName: string; email: string; password: string; role: Role } & ProfileFields
+  ) {
+    return this.request<User>("/api/users", {
+      method: "POST",
+      body: input,
+    });
+  }
+
+  updateUser(id: string, input: { firstName?: string; lastName?: string; role?: Role; enabled?: boolean }) {
+    return this.request<User>(`/api/users/${id}`, {
+      method: "PATCH",
+      body: input,
+    });
+  }
+
+  deleteUser(id: string) {
+    return this.request(`/api/users/${id}`, { method: "DELETE" });
   }
 
   private async request<T>(

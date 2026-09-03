@@ -1,14 +1,21 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { api } from "../api/client";
-import type { User } from "../api/types";
+import type { ProfileFields, User } from "../api/types";
 
 interface AuthContextValue {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (fullName: string, email: string, password: string) => Promise<void>;
+  register: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    profile?: ProfileFields
+  ) => Promise<void>;
   logout: () => Promise<void>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
+  updateProfile: (input: { firstName: string; lastName: string } & ProfileFields) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -53,9 +60,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const session = await api.login(email, password);
         setUser(session.user);
       },
-      register: async (fullName, email, password) => {
-        const session = await api.register(fullName, email, password);
+      register: async (firstName, lastName, email, password, profile) => {
+        const session = await api.register(firstName, lastName, email, password, profile);
         setUser(session.user);
+      },
+      updateProfile: async (input) => {
+        const next = await api.updateProfile(input);
+        setUser(next);
       },
       logout: async () => {
         await api.logout();

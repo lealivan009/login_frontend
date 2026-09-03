@@ -1,15 +1,19 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { emptyProfile, profilePayload } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { AuthForm, Field } from "../components/AuthForm";
 import { AuthLayout } from "../components/AuthLayout";
+import { ProfileFields } from "../components/ProfileFields";
 
 export function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [profile, setProfile] = useState(emptyProfile);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -19,7 +23,7 @@ export function RegisterPage() {
     setError(null);
     setSubmitting(true);
     try {
-      await register(fullName.trim(), email.trim(), password);
+      await register(firstName.trim(), lastName.trim(), email.trim(), password, profilePayload(profile));
       navigate("/app", { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo crear la cuenta");
@@ -31,6 +35,7 @@ export function RegisterPage() {
   return (
     <AuthLayout>
       <AuthForm
+        wide
         title="Crear cuenta"
         subtitle="Registrate para obtener una sesión lista para usar en cualquier producto."
         error={error}
@@ -43,13 +48,22 @@ export function RegisterPage() {
           </>
         }
       >
-        <Field
-          id="fullName"
-          label="Nombre"
-          autoComplete="name"
-          value={fullName}
-          onChange={setFullName}
-        />
+        <div className="form-grid">
+          <Field
+            id="firstName"
+            label="Nombre"
+            autoComplete="given-name"
+            value={firstName}
+            onChange={setFirstName}
+          />
+          <Field
+            id="lastName"
+            label="Apellido"
+            autoComplete="family-name"
+            value={lastName}
+            onChange={setLastName}
+          />
+        </div>
         <Field id="email" label="Email" type="email" autoComplete="email" value={email} onChange={setEmail} />
         <Field
           id="password"
@@ -65,6 +79,8 @@ export function RegisterPage() {
           }
         />
         <p className="hint">Mínimo 8 caracteres, con mayúscula, minúscula y un número.</p>
+        <p className="eyebrow profile-kicker">Datos personales</p>
+        <ProfileFields idPrefix="register" values={profile} onChange={setProfile} />
       </AuthForm>
     </AuthLayout>
   );

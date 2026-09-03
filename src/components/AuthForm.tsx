@@ -8,9 +8,21 @@ interface FieldProps {
   value: string;
   onChange: (value: string) => void;
   extra?: ReactNode;
+  required?: boolean;
+  max?: string;
 }
 
-export function Field({ id, label, type = "text", autoComplete, value, onChange, extra }: FieldProps) {
+export function Field({
+  id,
+  label,
+  type = "text",
+  autoComplete,
+  value,
+  onChange,
+  extra,
+  required = true,
+  max,
+}: FieldProps) {
   return (
     <label className="field" htmlFor={id}>
       <span className="field-label">
@@ -24,7 +36,8 @@ export function Field({ id, label, type = "text", autoComplete, value, onChange,
         autoComplete={autoComplete}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        required
+        required={required}
+        max={max}
       />
     </label>
   );
@@ -39,6 +52,7 @@ interface AuthFormProps {
   onSubmit: (event: FormEvent) => void;
   children: ReactNode;
   footer: ReactNode;
+  wide?: boolean;
 }
 
 export function AuthForm({
@@ -50,9 +64,10 @@ export function AuthForm({
   onSubmit,
   children,
   footer,
+  wide,
 }: AuthFormProps) {
   return (
-    <form className="auth-card" onSubmit={onSubmit} noValidate>
+    <form className={wide ? "auth-card auth-wide" : "auth-card"} onSubmit={onSubmit} noValidate>
       <div className="auth-card-copy">
         <p className="eyebrow">Acceso</p>
         <h1>{title}</h1>
