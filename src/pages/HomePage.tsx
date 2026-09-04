@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { emptyProfile, profileFromUser, profilePayload } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { Field } from "../components/AuthForm";
+import { PasswordHint } from "../components/PasswordHint";
 import { ProfileFields } from "../components/ProfileFields";
 
 export function HomePage() {
@@ -120,6 +121,7 @@ export function HomePage() {
           value={newPassword}
           onChange={setNewPassword}
         />
+        <PasswordHint />
         <button className="btn-primary btn-inline" type="submit" disabled={savingPassword}>
           {savingPassword ? "Guardando…" : "Actualizar"}
         </button>

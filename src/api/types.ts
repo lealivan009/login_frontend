@@ -87,9 +87,41 @@ export interface ApiError {
 
 export interface PublicSettings {
   allowPublicRegistration: boolean;
+  passwordMinLength: number;
+  passwordMaxLength: number;
+  passwordRequireUppercase: boolean;
+  passwordRequireLowercase: boolean;
+  passwordRequireDigit: boolean;
 }
 
 export interface AppSettings extends PublicSettings {
+  maxFailedAttempts: number;
+  lockDurationMinutes: number;
   updatedAt?: string | null;
+}
+
+export function passwordPolicyHint(settings: Pick<
+  PublicSettings,
+  | "passwordMinLength"
+  | "passwordMaxLength"
+  | "passwordRequireUppercase"
+  | "passwordRequireLowercase"
+  | "passwordRequireDigit"
+>) {
+  const parts = [`entre ${settings.passwordMinLength} y ${settings.passwordMaxLength} caracteres`];
+  const needs: string[] = [];
+  if (settings.passwordRequireUppercase) {
+    needs.push("mayúscula");
+  }
+  if (settings.passwordRequireLowercase) {
+    needs.push("minúscula");
+  }
+  if (settings.passwordRequireDigit) {
+    needs.push("un número");
+  }
+  if (needs.length > 0) {
+    parts.push(`con ${needs.join(", ")}`);
+  }
+  return parts.join(", ");
 }
 

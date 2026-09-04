@@ -347,6 +347,10 @@ select:focus {
   margin: 8px 0 16px;
 }
 
+.settings-section-title {
+  margin-top: 32px;
+}
+
 .table-card {
   overflow: hidden;
 }
@@ -421,10 +425,14 @@ select:focus {
 }
 
 .settings-list {
-  margin-top: 20px;
+  margin: 28px 0 4px;
   border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
+}
+
+.session-card > h2 + .settings-list {
+  margin-top: 28px;
 }
 
 .settings-row,

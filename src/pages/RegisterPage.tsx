@@ -5,6 +5,7 @@ import { useAuth } from "../auth/AuthContext";
 import { AuthForm, Field } from "../components/AuthForm";
 import { AuthLayout } from "../components/AuthLayout";
 import { ProfileFields } from "../components/ProfileFields";
+import { PasswordHint } from "../components/PasswordHint";
 
 export function RegisterPage() {
   const { register } = useAuth();
@@ -78,7 +79,7 @@ export function RegisterPage() {
             </button>
           }
         />
-        <p className="hint">Mínimo 8 caracteres, con mayúscula, minúscula y un número.</p>
+        <PasswordHint />
         <p className="eyebrow profile-kicker">Datos personales</p>
         <ProfileFields idPrefix="register" values={profile} onChange={setProfile} />
       </AuthForm>

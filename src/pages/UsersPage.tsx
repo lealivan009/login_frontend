@@ -4,6 +4,7 @@ import { api } from "../api/client";
 import type { Role, User } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { Field } from "../components/AuthForm";
+import { PasswordHint } from "../components/PasswordHint";
 
 function formatDate(value: string | null | undefined) {
   if (!value) {
@@ -128,6 +129,7 @@ export function UsersPage() {
             </select>
           </label>
         </div>
+        <PasswordHint />
         <button className="btn-primary btn-inline" type="submit" disabled={creating}>
           {creating ? "Creando…" : "Crear"}
         </button>

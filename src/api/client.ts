@@ -159,7 +159,16 @@ export class ApiClient {
     return this.request<AppSettings>("/api/settings");
   }
 
-  updateSettings(input: { allowPublicRegistration: boolean }) {
+  updateSettings(input: {
+    allowPublicRegistration: boolean;
+    maxFailedAttempts: number;
+    lockDurationMinutes: number;
+    passwordMinLength: number;
+    passwordMaxLength: number;
+    passwordRequireUppercase: boolean;
+    passwordRequireLowercase: boolean;
+    passwordRequireDigit: boolean;
+  }) {
     return this.request<AppSettings>("/api/settings", {
       method: "PATCH",
       body: input,
