@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../api/client";
 import { useAuth } from "../auth/AuthContext";
 import { AuthForm, Field } from "../components/AuthForm";
@@ -8,10 +8,15 @@ import { AuthLayout } from "../components/AuthLayout";
 export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const success =
+    (location.state as { resetOk?: boolean } | null)?.resetOk
+      ? "Contraseña actualizada. Ya podés iniciar sesión."
+      : null;
   const [submitting, setSubmitting] = useState(false);
   const [allowPublicRegistration, setAllowPublicRegistration] = useState<boolean | null>(null);
 
@@ -54,6 +59,7 @@ export function LoginPage() {
         title="Iniciar sesión"
         subtitle="Entrá con tu email y contraseña para continuar."
         error={error}
+        success={success}
         submitting={submitting}
         submitLabel="Entrar"
         onSubmit={onSubmit}
@@ -76,9 +82,14 @@ export function LoginPage() {
           value={password}
           onChange={setPassword}
           extra={
-            <button type="button" className="text-btn" onClick={() => setShowPassword((value) => !value)}>
-              {showPassword ? "Ocultar" : "Mostrar"}
-            </button>
+            <span className="field-label-actions">
+              <Link className="text-btn" to="/forgot-password">
+                Olvidé mi contraseña
+              </Link>
+              <button type="button" className="text-btn" onClick={() => setShowPassword((value) => !value)}>
+                {showPassword ? "Ocultar" : "Mostrar"}
+              </button>
+            </span>
           }
         />
       </AuthForm>

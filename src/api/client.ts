@@ -113,6 +113,22 @@ export class ApiClient {
     });
   }
 
+  forgotPassword(email: string) {
+    return this.request<{ message: string }>("/api/auth/forgot-password", {
+      method: "POST",
+      auth: false,
+      body: { email },
+    });
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.request<{ message: string }>("/api/auth/reset-password", {
+      method: "POST",
+      auth: false,
+      body: { token, newPassword },
+    });
+  }
+
   updateProfile(input: { firstName: string; lastName: string } & ProfileFields) {
     return this.request<User>("/api/auth/me", {
       method: "PATCH",

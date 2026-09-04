@@ -47,6 +47,7 @@ interface AuthFormProps {
   title: string;
   subtitle: string;
   error: string | null;
+  success?: string | null;
   submitting: boolean;
   submitLabel: string;
   onSubmit: (event: FormEvent) => void;
@@ -59,6 +60,7 @@ export function AuthForm({
   title,
   subtitle,
   error,
+  success,
   submitting,
   submitLabel,
   onSubmit,
@@ -74,6 +76,7 @@ export function AuthForm({
         <p className="lede">{subtitle}</p>
       </div>
       {error ? <p className="alert">{error}</p> : null}
+      {success ? <p className="alert ok">{success}</p> : null}
       {children}
       <button className="btn-primary" type="submit" disabled={submitting}>
         {submitting ? "Procesando…" : submitLabel}

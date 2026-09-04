@@ -4,9 +4,11 @@ import { GuestRoute } from "./auth/GuestRoute";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 import { RegisterRoute } from "./auth/RegisterRoute";
 import { AppShell } from "./components/AppShell";
+import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
+import { ResetPasswordPage } from "./pages/ResetPasswordPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { UserDetailPage } from "./pages/UserDetailPage";
 import { UsersPage } from "./pages/UsersPage";
@@ -16,6 +18,8 @@ export function App() {
     <Routes>
       <Route element={<GuestRoute />}>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route element={<RegisterRoute />}>
           <Route path="/register" element={<RegisterPage />} />
         </Route>
