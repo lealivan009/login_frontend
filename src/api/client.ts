@@ -1,4 +1,4 @@
-import type { ApiError, AuthResponse, ProfileFields, Role, User } from "./types";
+import type { ApiError, AppSettings, AuthResponse, ProfileFields, PublicSettings, Role, User } from "./types";
 
 function resolveApiUrl(): string {
   const runtime = window.__APP_CONFIG__?.API_URL?.trim();
@@ -124,6 +124,10 @@ export class ApiClient {
     return this.request<User[]>("/api/users");
   }
 
+  getUser(id: string) {
+    return this.request<User>(`/api/users/${id}`);
+  }
+
   createUser(
     input: { firstName: string; lastName: string; email: string; password: string; role: Role } & ProfileFields
   ) {
@@ -133,7 +137,10 @@ export class ApiClient {
     });
   }
 
-  updateUser(id: string, input: { firstName?: string; lastName?: string; role?: Role; enabled?: boolean }) {
+  updateUser(
+    id: string,
+    input: { firstName?: string; lastName?: string; role?: Role; enabled?: boolean } & ProfileFields
+  ) {
     return this.request<User>(`/api/users/${id}`, {
       method: "PATCH",
       body: input,
@@ -142,6 +149,21 @@ export class ApiClient {
 
   deleteUser(id: string) {
     return this.request(`/api/users/${id}`, { method: "DELETE" });
+  }
+
+  getPublicSettings() {
+    return this.request<PublicSettings>("/api/settings/public", { auth: false });
+  }
+
+  getSettings() {
+    return this.request<AppSettings>("/api/settings");
+  }
+
+  updateSettings(input: { allowPublicRegistration: boolean }) {
+    return this.request<AppSettings>("/api/settings", {
+      method: "PATCH",
+      body: input,
+    });
   }
 
   private async request<T>(

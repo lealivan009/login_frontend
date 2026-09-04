@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../api/client";
 import type { Role, User } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
@@ -84,29 +85,20 @@ export function UsersPage() {
     }
   }
 
-  async function runAction(action: () => Promise<unknown>, ok: string) {
-    setError(null);
-    setNotice(null);
-    try {
-      await action();
-      setNotice(ok);
-      await load();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "No se pudo completar la acción");
-    }
-  }
-
   return (
     <>
       <section className="session-card">
         <p className="eyebrow">Administración</p>
         <h1>Usuarios</h1>
-        <p className="lede">Altas, rol, habilitación y bajas. No podés borrarte ni dejar el sistema sin un admin.</p>
+        <p className="lede">Altas rápidas y listado. Abrí la ficha para ver o editar el detalle completo.</p>
       </section>
 
       <form className="session-card" onSubmit={onCreate}>
         <h2>Nuevo usuario</h2>
-        <p className="lede">Con esto alcanza para crear la cuenta. El resto (documento, domicilio, nacimiento) lo completa la persona desde Inicio.</p>
+        <p className="lede">
+          Con esto alcanza para crear la cuenta. El resto (documento, domicilio, nacimiento) lo completa la persona
+          desde Inicio o lo cargás vos en la ficha.
+        </p>
         <div className="form-grid">
           <Field id="newFirstName" label="Nombre" value={firstName} onChange={setFirstName} autoComplete="off" />
           <Field id="newLastName" label="Apellido" value={lastName} onChange={setLastName} autoComplete="off" />
@@ -179,50 +171,10 @@ export function UsersPage() {
                       </td>
                       <td>{formatDate(user.lastLoginAt)}</td>
                       <td className="actions">
-                        {self ? (
-                          <span className="hint-inline">Vos</span>
-                        ) : (
-                          <>
-                            <button
-                              type="button"
-                              className="text-btn"
-                              onClick={() =>
-                                runAction(
-                                  () =>
-                                    api.updateUser(user.id, {
-                                      role: user.role === "ADMIN" ? "USER" : "ADMIN",
-                                    }),
-                                  "Rol actualizado"
-                                )
-                              }
-                            >
-                              {user.role === "ADMIN" ? "Quitar admin" : "Hacer admin"}
-                            </button>
-                            <button
-                              type="button"
-                              className="text-btn"
-                              onClick={() =>
-                                runAction(
-                                  () => api.updateUser(user.id, { enabled: user.enabled === false }),
-                                  user.enabled === false ? "Usuario habilitado" : "Usuario deshabilitado"
-                                )
-                              }
-                            >
-                              {user.enabled === false ? "Habilitar" : "Deshabilitar"}
-                            </button>
-                            <button
-                              type="button"
-                              className="text-btn danger"
-                              onClick={() => {
-                                if (window.confirm(`¿Borrar a ${user.email}?`)) {
-                                  runAction(() => api.deleteUser(user.id), "Usuario eliminado");
-                                }
-                              }}
-                            >
-                              Borrar
-                            </button>
-                          </>
-                        )}
+                        <Link className="text-btn" to={`/app/users/${user.id}`}>
+                          Ver
+                        </Link>
+                        {self ? <span className="hint-inline">Vos</span> : null}
                       </td>
                     </tr>
                   );

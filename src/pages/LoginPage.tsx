@@ -1,5 +1,6 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../api/client";
 import { useAuth } from "../auth/AuthContext";
 import { AuthForm, Field } from "../components/AuthForm";
 import { AuthLayout } from "../components/AuthLayout";
@@ -12,6 +13,26 @@ export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [allowPublicRegistration, setAllowPublicRegistration] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    api
+      .getPublicSettings()
+      .then((settings) => {
+        if (!cancelled) {
+          setAllowPublicRegistration(settings.allowPublicRegistration);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setAllowPublicRegistration(true);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -37,9 +58,13 @@ export function LoginPage() {
         submitLabel="Entrar"
         onSubmit={onSubmit}
         footer={
-          <>
-            ¿No tenés cuenta? <Link to="/register">Crear una</Link>
-          </>
+          allowPublicRegistration ? (
+            <>
+              ¿No tenés cuenta? <Link to="/register">Crear una</Link>
+            </>
+          ) : allowPublicRegistration === false ? (
+            <>El registro está cerrado. Pedile a un administrador que cree tu cuenta.</>
+          ) : null
         }
       >
         <Field id="email" label="Email" type="email" autoComplete="email" value={email} onChange={setEmail} />

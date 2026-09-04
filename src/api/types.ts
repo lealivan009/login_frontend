@@ -84,3 +84,12 @@ export interface ApiError {
   error: string;
   message: string;
 }
+
+export interface PublicSettings {
+  allowPublicRegistration: boolean;
+}
+
+export interface AppSettings extends PublicSettings {
+  updatedAt?: string | null;
+}
+
