@@ -72,6 +72,14 @@ export function displayName(user: Pick<User, "firstName" | "lastName">) {
   return [user.firstName, user.lastName].filter(Boolean).join(" ").trim();
 }
 
+export interface UserPage {
+  items: User[];
+  total: number;
+  page: number;
+  size: number;
+  totalPages: number;
+}
+
 export interface AuthResponse {
   accessToken: string;
   refreshToken: string;

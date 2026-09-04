@@ -1,4 +1,4 @@
-import type { ApiError, AppSettings, AuthResponse, ProfileFields, PublicSettings, Role, User } from "./types";
+import type { ApiError, AppSettings, AuthResponse, ProfileFields, PublicSettings, Role, User, UserPage } from "./types";
 
 function resolveApiUrl(): string {
   const runtime = window.__APP_CONFIG__?.API_URL?.trim();
@@ -136,8 +136,31 @@ export class ApiClient {
     });
   }
 
-  listUsers() {
-    return this.request<User[]>("/api/users");
+  listUsers(params: {
+    q?: string;
+    page?: number;
+    size?: number;
+    enabled?: boolean;
+    role?: Role;
+  } = {}) {
+    const query = new URLSearchParams();
+    if (params.q?.trim()) {
+      query.set("q", params.q.trim());
+    }
+    if (params.page != null) {
+      query.set("page", String(params.page));
+    }
+    if (params.size != null) {
+      query.set("size", String(params.size));
+    }
+    if (params.enabled != null) {
+      query.set("enabled", String(params.enabled));
+    }
+    if (params.role) {
+      query.set("role", params.role);
+    }
+    const qs = query.toString();
+    return this.request<UserPage>(`/api/users${qs ? `?${qs}` : ""}`);
   }
 
   getUser(id: string) {

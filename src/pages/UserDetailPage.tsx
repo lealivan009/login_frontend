@@ -177,7 +177,7 @@ export function UserDetailPage() {
             <dt>Estado</dt>
             <dd>
               <span className={user.enabled === false ? "pill off" : "pill on"}>
-                {user.enabled === false ? "Deshabilitado" : "Activo"}
+                {user.enabled === false ? "Inactivo" : "Activo"}
               </span>
             </dd>
           </div>
