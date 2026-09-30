@@ -1,30 +1,31 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { displayName } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
+import { UserMenu } from "./UserMenu";
 
 export function AppShell() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const isAdmin = user?.role === "ADMIN";
 
   return (
     <div className="app-shell">
       <header className="app-nav">
-        <div className="brand-mark sm">AB</div>
-        <strong>Auth Base</strong>
+        <NavLink to="/app" className="app-brand" end>
+          <span className="brand-mark sm">AB</span>
+          <strong>Auth Base</strong>
+        </NavLink>
         <nav className="app-links">
           <NavLink to="/app" end>
             Inicio
           </NavLink>
+          <NavLink to="/app/profile">Perfil</NavLink>
           {isAdmin ? <NavLink to="/app/users">Usuarios</NavLink> : null}
-          {isAdmin ? <NavLink to="/app/settings">Configuración</NavLink> : null}
+          {isAdmin ? (
+            <NavLink to="/app/settings" title="Configuración del sistema">
+              Sistema
+            </NavLink>
+          ) : null}
         </nav>
-        <span className="app-user">
-          {user ? displayName(user) : null}
-          {isAdmin ? <em>Admin</em> : null}
-        </span>
-        <button className="btn-ghost" type="button" onClick={() => logout()}>
-          Cerrar sesión
-        </button>
+        <UserMenu />
       </header>
       <main className="app-main">
         <Outlet />
