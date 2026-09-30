@@ -1,15 +1,17 @@
 :root {
-  color-scheme: dark;
-  --bg: #090b10;
-  --bg-elev: #12151d;
-  --line: rgba(255, 255, 255, 0.08);
-  --text: #f4f1ea;
-  --muted: #a8a398;
-  --accent: #e8c547;
-  --accent-ink: #1b1608;
-  --danger: #ff8a7a;
-  --ok: #8ee0b0;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  color-scheme: light;
+  --bg: #dfe5ec;
+  --bg-elev: #f3f5f8;
+  --input-bg: #eef1f5;
+  --line: rgba(35, 48, 68, 0.12);
+  --text: #1e2a3a;
+  --muted: #5f6d7e;
+  --accent: #3d6f8c;
+  --accent-soft: rgba(61, 111, 140, 0.12);
+  --accent-ink: #f7fafc;
+  --danger: #c45b4e;
+  --ok: #3d8f6e;
+  --shadow: 0 18px 48px rgba(40, 55, 75, 0.1);
   --font: "Outfit", system-ui, sans-serif;
   --serif: "Fraunces", Georgia, serif;
   --radius: 22px;
@@ -29,8 +31,8 @@ body {
   margin: 0;
   font-family: var(--font);
   background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(232, 197, 71, 0.12), transparent 50%),
-    radial-gradient(900px 500px at 100% 0%, rgba(92, 124, 255, 0.12), transparent 45%),
+    radial-gradient(1100px 520px at 8% -8%, rgba(61, 111, 140, 0.16), transparent 55%),
+    radial-gradient(900px 480px at 100% 0%, rgba(120, 140, 160, 0.18), transparent 50%),
     var(--bg);
   color: var(--text);
 }
@@ -61,13 +63,13 @@ a:hover {
   justify-content: center;
   border-right: 1px solid var(--line);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 40%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 45%),
     repeating-linear-gradient(
       -24deg,
       transparent,
       transparent 18px,
-      rgba(255, 255, 255, 0.015) 18px,
-      rgba(255, 255, 255, 0.015) 19px
+      rgba(30, 42, 58, 0.03) 18px,
+      rgba(30, 42, 58, 0.03) 19px
     );
 }
 
@@ -146,7 +148,7 @@ a:hover {
 .auth-card,
 .session-card {
   width: min(440px, 100%);
-  background: rgba(18, 21, 29, 0.88);
+  background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 32px;
@@ -189,7 +191,7 @@ input,
 select {
   width: 100%;
   border: 1px solid var(--line);
-  background: #0d1017;
+  background: var(--input-bg);
   color: var(--text);
   border-radius: 14px;
   padding: 13px 14px;
@@ -202,7 +204,7 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-color: #0d1017;
+  background-color: var(--input-bg);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23a8a398' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
@@ -212,8 +214,8 @@ select {
 
 input:focus,
 select:focus {
-  border-color: rgba(232, 197, 71, 0.7);
-  box-shadow: 0 0 0 4px rgba(232, 197, 71, 0.12);
+  border-color: rgba(61, 111, 140, 0.55);
+  box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
 .btn-primary,
@@ -271,13 +273,13 @@ select:focus {
   margin: 0 0 16px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: rgba(255, 138, 122, 0.12);
+  background: rgba(196, 91, 78, 0.12);
   color: var(--danger);
   font-size: 14px;
 }
 
 .alert.ok {
-  background: rgba(142, 224, 176, 0.12);
+  background: rgba(61, 143, 110, 0.12);
   color: var(--ok);
 }
 
@@ -291,7 +293,7 @@ select:focus {
   gap: 14px;
   padding: 16px 24px;
   border-bottom: 1px solid var(--line);
-  background: rgba(18, 21, 29, 0.72);
+  background: rgba(243, 245, 248, 0.92);
   backdrop-filter: blur(16px);
   position: sticky;
   top: 0;
@@ -320,7 +322,7 @@ select:focus {
 .app-links a:hover,
 .app-links a.active {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(30, 42, 58, 0.05);
   text-decoration: none;
 }
 
@@ -355,7 +357,7 @@ select:focus {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
-  border: 1px solid rgba(232, 197, 71, 0.35);
+  border: 1px solid rgba(61, 111, 140, 0.4);
   border-radius: 999px;
   padding: 2px 8px;
 }
@@ -370,7 +372,7 @@ select:focus {
   align-items: center;
   gap: 10px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(30, 42, 58, 0.03);
   color: var(--text);
   border-radius: 999px;
   padding: 4px 12px 4px 4px;
@@ -380,7 +382,7 @@ select:focus {
 
 .user-menu-trigger:hover,
 .user-menu.open .user-menu-trigger {
-  border-color: rgba(232, 197, 71, 0.45);
+  border-color: rgba(61, 111, 140, 0.45);
 }
 
 .user-menu-copy {
@@ -415,7 +417,7 @@ select:focus {
   right: 0;
   top: calc(100% + 10px);
   width: min(280px, calc(100vw - 32px));
-  background: #12151d;
+  background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: 16px;
   box-shadow: var(--shadow);
@@ -464,7 +466,7 @@ select:focus {
 
 .user-menu-panel a:hover,
 .user-menu-panel button:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(30, 42, 58, 0.05);
   text-decoration: none;
 }
 
@@ -478,7 +480,7 @@ select:focus {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(145deg, rgba(232, 197, 71, 0.95), rgba(184, 140, 40, 0.9));
+  background: linear-gradient(145deg, #5a8aa5, var(--accent));
   color: var(--accent-ink);
   font-size: 12px;
   font-weight: 700;
@@ -531,7 +533,7 @@ select:focus {
   margin-top: 14px;
   height: 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(30, 42, 58, 0.08);
   overflow: hidden;
 }
 
@@ -539,7 +541,7 @@ select:focus {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--accent), #f0d978);
+  background: linear-gradient(90deg, var(--accent), #6a9bb5);
 }
 
 .home-grid {
@@ -555,7 +557,7 @@ select:focus {
   padding: 22px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
-  background: rgba(18, 21, 29, 0.88);
+  background: var(--bg-elev);
   color: inherit;
   text-decoration: none;
   box-shadow: var(--shadow);
@@ -563,7 +565,7 @@ select:focus {
 }
 
 .home-tile:hover {
-  border-color: rgba(232, 197, 71, 0.45);
+  border-color: rgba(61, 111, 140, 0.45);
   transform: translateY(-2px);
   text-decoration: none;
 }
@@ -711,12 +713,12 @@ select:focus {
 }
 
 .pill.on {
-  background: rgba(142, 224, 176, 0.12);
+  background: rgba(61, 143, 110, 0.14);
   color: var(--ok);
 }
 
 .pill.off {
-  background: rgba(255, 138, 122, 0.12);
+  background: rgba(196, 91, 78, 0.12);
   color: var(--danger);
 }
 
@@ -794,7 +796,7 @@ select:focus {
   flex: 0 0 auto;
   min-width: 88px;
   border: 1px solid var(--line);
-  background: #0d1017;
+  background: var(--input-bg);
   color: var(--muted);
   border-radius: 999px;
   padding: 6px 10px 6px 6px;
@@ -803,7 +805,7 @@ select:focus {
 }
 
 .toggle.on {
-  border-color: rgba(232, 197, 71, 0.45);
+  border-color: rgba(61, 111, 140, 0.45);
   color: var(--accent);
 }
 
@@ -811,7 +813,7 @@ select:focus {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(30, 42, 58, 0.2);
   transition: transform 0.15s ease, background 0.15s ease;
 }
 
@@ -861,7 +863,7 @@ select:focus {
 .modal-card {
   position: relative;
   width: min(440px, 100%);
-  background: rgba(18, 21, 29, 0.96);
+  background: rgba(243, 245, 248, 0.98);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 28px;

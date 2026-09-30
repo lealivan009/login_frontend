@@ -17,7 +17,6 @@ export function AppShell() {
           <NavLink to="/app" end>
             Inicio
           </NavLink>
-          <NavLink to="/app/profile">Perfil</NavLink>
           {isAdmin ? <NavLink to="/app/users">Usuarios</NavLink> : null}
           {isAdmin ? (
             <NavLink to="/app/settings" title="Configuración del sistema">
